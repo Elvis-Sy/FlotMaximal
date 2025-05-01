@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.react-flow__edge-path {
+    stroke-width: 1.5 !important;
+}
+
+@font-face {
+    font-family: 'transcity';
+    src: url('/fonts/Transcity DEMO.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
