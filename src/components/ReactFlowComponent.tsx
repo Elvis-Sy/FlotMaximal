@@ -12,6 +12,7 @@ import {
 import "@xyflow/react/dist/style.css";
 import NodesGenerator from "./NodesGenerator";
 import { calculateMaxFlow as calculationUtil} from "../utils/calculateFlow";
+import { Play } from "lucide-react";
 
 interface ReactFlowComponentProps {
   fieldValue: number;
@@ -32,7 +33,6 @@ const ReactFlowComponent: React.FC<ReactFlowComponentProps> = ({
   const [isCalculating, setIsCalculating] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [flowEdges, setFlowEdges] = useState<any[]>([]);
-  // const [markedNodes, setMarkedNodes] = useState<string[]>([]);
   const animationFrameRef = useRef<number>();
 
   useEffect(() => {
@@ -40,6 +40,17 @@ const ReactFlowComponent: React.FC<ReactFlowComponentProps> = ({
       setFlowEdges(edges);
     }
   }, [edges, isCalculating]);
+
+  useEffect(() => {
+    return () => {
+      if (isCalculating) {
+        setEdges((prevEdges: any[]) => prevEdges.map(edge => ({
+          ...edge,
+          animated: false
+        })));
+      }
+    };
+  }, [isCalculating]);
 
   const handleNodesChange = useCallback((newNodes: any[]) => {
     setNodes(newNodes);
@@ -288,11 +299,11 @@ const ReactFlowComponent: React.FC<ReactFlowComponentProps> = ({
           disabled={isCalculating}
           className={`w-full px-4 py-2 rounded-md text-white transition-colors ${
             isCalculating 
-              ? 'bg-[#88c4f5] cursor-not-allowed' 
-              : 'bg-[#299eff] hover:bg-[#166cb7]'
+              ? 'bg-[#88f5ac] cursor-not-allowed' 
+              : 'bg-green-500 hover:bg-green-600'
           }`}
         >
-          {isCalculating ? 'Calcul en cours...' : 'Calculer le Flot Max'}
+          <Play size={18} className="mr-2" /> {isCalculating ? 'Calcul en cours...' : 'Calculer le Flot Max'}
         </button>
         {error && (
           <div className="mt-2 text-sm text-red-600 bg-red-50 p-2 rounded">
