@@ -297,7 +297,7 @@ const ReactFlowComponent: React.FC<ReactFlowComponentProps> = ({
         <button
           onClick={calculateMaxFlow}
           disabled={isCalculating}
-          className={`flex gap-2 w-full px-4 py-2 rounded-md text-white transition-colors ${
+          className={`flex items-center gap-1 w-full px-4 py-2 rounded-md text-white transition-colors ${
             isCalculating 
               ? 'bg-[#88f5ac] cursor-not-allowed' 
               : 'bg-green-500 hover:bg-green-600'
