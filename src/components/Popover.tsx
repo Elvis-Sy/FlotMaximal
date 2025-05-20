@@ -14,13 +14,29 @@ const Popover: React.FC<PopoverProps> = ({ isOpen, onClose, anchorRef }) => {
     if (anchorRef.current && popoverRef.current) {
       const anchorRect = anchorRef.current.getBoundingClientRect();
       const popoverRect = popoverRef.current.getBoundingClientRect();
-
-      setPosition({
-        top: anchorRect.bottom + window.scrollY + 4,
-        left: anchorRect.left + window.scrollX - popoverRect.width,
-      });
+  
+      const isMobile = window.innerWidth < 640;
+  
+      let top: number;
+      let left: number;
+  
+      if (isMobile) {
+        top = anchorRect.bottom + window.scrollY + 4;
+        left = anchorRect.right + window.scrollX - popoverRect.width;
+      } else {
+        top = anchorRect.bottom + window.scrollY + 4;
+        left = anchorRect.left + window.scrollX - popoverRect.width;
+  
+        if (left < 8) left = 8;
+        const maxRight = window.innerWidth - popoverRect.width - 8;
+        if (left > maxRight) left = maxRight;
+      }
+  
+      setPosition({ top, left });
     }
   };
+  
+  
 
   useEffect(() => {
     if (isOpen) {
