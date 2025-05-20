@@ -73,7 +73,7 @@ const Popover: React.FC<PopoverProps> = ({ isOpen, onClose, anchorRef }) => {
         left: position.left,
       }}
     >
-      <div className="p-4 pt-0 space-y-4 text-sm max-h-96 overflow-auto max-w-96">
+      <div className="p-4 pt-0 space-y-4 text-sm max-h-96 overflow-auto max-w-80 md:max-w-96">
         <div>
             <h3 className="font-semibold mb-1">Le problème du flot maximal</h3>
             <p className="text-gray-700">
