@@ -37,20 +37,12 @@ const ReactFlowComponent: React.FC<ReactFlowComponentProps> = ({
 
   useEffect(() => {
     if (!isCalculating) {
-      setFlowEdges(edges);
+      setFlowEdges(edges.map(edge => ({
+        ...edge,
+        animated: false
+      })));
     }
   }, [edges, isCalculating]);
-
-  useEffect(() => {
-    return () => {
-      if (isCalculating) {
-        setEdges((prevEdges: any[]) => prevEdges.map(edge => ({
-          ...edge,
-          animated: false
-        })));
-      }
-    };
-  }, [isCalculating]);
 
   const handleNodesChange = useCallback((newNodes: any[]) => {
     setNodes(newNodes);
