@@ -16,7 +16,6 @@ const AssistedFlow =()=> {
   const [error, setError] = useState<string | null>(null);
   const [isCalculating, setIsCalculating] = useState<boolean>(false);
   const [currentPath, setCurrentPath] = useState<any[] | null>(null);
-  const [showGraph, setShowGraph] = useState(false);
 
   const handleAddEdge = (from: string, to: string, capacity: number) => {
     const newEdge = {
@@ -51,7 +50,6 @@ const AssistedFlow =()=> {
     setMaxFlow(null);
     setCurrentEdge({ from: '', to: '', capacity: 1 });
     setError(null);
-    setShowGraph(false);
   };
 
 
@@ -90,72 +88,99 @@ const AssistedFlow =()=> {
   }, [nodes, edges]);
 
   const rearrangeNodesByLevel = () => {
-    const levels: Record<string, number> = {};
-    const visited: Set<string> = new Set();
-    const queue: Array<{ id: string; level: number }> = [{ id: 'start', level: 0 }];
-  
-    // 1. BFS pour calculer les niveaux depuis la source
-    while (queue.length > 0) {
-      const { id, level } = queue.shift()!;
-      if (visited.has(id)) continue;
-      visited.add(id);
-      levels[id] = level;
-  
-      const children = edges.filter(edge => edge.source === id).map(edge => edge.target);
-      for (const child of children) {
-        if (!visited.has(child)) {
-          queue.push({ id: child, level: level + 1 });
-        }
-      }
-    }
-  
-    // 2. Grouper les noeuds par niveau
-    const levelsToNodes: Record<number, string[]> = {};
-    for (const nodeId in levels) {
-      const lvl = levels[nodeId];
-      if (!levelsToNodes[lvl]) levelsToNodes[lvl] = [];
-      levelsToNodes[lvl].push(nodeId);
-    }
-  
-    // Trouver le niveau max pour savoir combien de colonnes
-    const maxLevel = Math.max(...Object.values(levels));
-    const spacingX = 200;
+    const spacingX = 180;
     const spacingY = 100;
+    const startX = 100;
+    const startY = 100;
   
-    // Centrage horizontal basé sur le nombre de niveaux
-    const totalWidth = (maxLevel + 2) * spacingX; // +2 pour marges
-    const offsetX = window.innerWidth / 2 - totalWidth / 2;
+    const occupied: Record<number, Set<number>> = {}; // colonne => lignes utilisées
+    const gridPositions: Record<string, { col: number; row: number }> = {};
+    const placed = new Set<string>();
   
-    // 3. Repositionner les noeuds
-    const newNodes = nodes.map((node) => {
-      let level = levels[node.id] ?? 0;
+    // Fonction pour positionner un nœud à une colonne et une ligne disponibles
+    const placeNode = (id: string, col: number, preferredRow?: number) => {
+      if (!occupied[col]) occupied[col] = new Set();
+      let row = preferredRow ?? 0;
   
-      // Forcer le nœud "end" à aller au niveau max + 1
-      if (node.id === 'end') {
-        level = maxLevel + 1;
+      while (occupied[col].has(row)) {
+        row++;
       }
   
-      const nodesAtLevel = level === (maxLevel + 1)
-        ? ['end']
-        : levelsToNodes[level] || [];
+      occupied[col].add(row);
+      gridPositions[id] = { col, row };
+      placed.add(id);
+    };
   
-      const index = nodesAtLevel.indexOf(node.id);
+    // 1. Placer le nœud de départ "start"
+    placeNode("start", 0, 0);
+  
+    // 2. Placement des enfants en BFS
+    const queue: string[] = ["start"];
+  
+    while (queue.length > 0) {
+      const current = queue.shift()!;
+      const parentPos = gridPositions[current];
+      if (!parentPos) continue;
+  
+      const children = edges
+        .filter((e) => e.source === current)
+        .map((e) => e.target)
+        .filter((child) => !placed.has(child));
+  
+      for (let i = 0; i < children.length; i++) {
+        const child = children[i];
+  
+        // Tous les enfants sont dans la même colonne que leur parent
+        const childCol = parentPos.col + 1; // peut rester +1 pour meilleure lisibilité horizontale
+        const preferredRow = i === 0 ? parentPos.row : undefined; // aligné Y pour le 1er enfant
+  
+        placeNode(child, childCol, preferredRow);
+        queue.push(child);
+      }
+    }
+  
+    // 3. Placer les nœuds non connectés
+    let fallbackCol = Math.max(...Object.values(gridPositions).map((p) => p.col), 0);
+    for (const node of nodes) {
+      const { id } = node;
+      if (id === "start" || id === "end" || placed.has(id)) continue;
+  
+      fallbackCol++;
+      placeNode(id, fallbackCol);
+    }
+  
+    // 4. Placer le puits "end" à la colonne la plus à droite + 1
+    const allNodeIds = nodes.map((n) => n.id).filter((id) => id !== "end");
+    const maxCol = Math.max(...allNodeIds.map((id) => gridPositions[id]?.col ?? 0));
+    placeNode("end", maxCol + 1);
+  
+    // 5. Appliquer les positions x, y avec transition
+    const newNodes = nodes.map((node) => {
+      const pos = gridPositions[node.id];
+      if (!pos) return node;
   
       return {
         ...node,
         position: {
-          x: offsetX + level * spacingX,
-          y: index * spacingY + 50
-        }
+          x: startX + pos.col * spacingX,
+          y: startY + pos.row * spacingY,
+        },
+        style: {
+          ...node.style,
+          transition: "all 0.1s ease",
+        },
       };
     });
   
     setNodes(newNodes);
   };
   
+  
+  
+  
+  
 
   const calculateMaxFlow = useCallback(() => {
-    setShowGraph(true);
     rearrangeNodesByLevel();
     calculationUtil(
       nodes,
@@ -191,7 +216,6 @@ const AssistedFlow =()=> {
           />
         </div>
         
-        {showGraph && (
           <AssistedFlowComponent 
             nodes={nodes} 
             setNodes={setNodes} 
@@ -201,7 +225,6 @@ const AssistedFlow =()=> {
             isCalculating={isCalculating} 
             maxFlow={maxFlow} 
             error={error}/>
-        )}
         
       </div>
     </ContentWrapper>

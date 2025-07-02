@@ -78,7 +78,7 @@ export function generateNodes(
         style: { width: 40, height: 40 },
         sourcePosition: Position.Right,
         targetPosition: Position.Left,
-        draggable: false,
+        draggable: true,
       });
     }
 
