@@ -2,7 +2,7 @@ import { Copyright, Mail } from 'lucide-react'
 
 const Footer = () => {
   return (
-    <div className='mt-[100px] flex flex-col lg:flex-row justify-between gap-20 lg:gap-0 lg:items-center bg-[#fefefe] w-full py-6 px-8 lg:px-16'>
+    <div className='mt-[100px] flex flex-col lg:flex-row justify-between gap-20 lg:gap-0 lg:items-center bg-blue-200 w-full py-6 px-8 lg:px-16'>
         <div className="flex flex-col gap-4 order-2 md:order-1">
             <h1 className='font-semibold text-gray-900 text-lg'>EQUIPE</h1>
             <div className='flex flex-col gap-2 text-gray-800'>

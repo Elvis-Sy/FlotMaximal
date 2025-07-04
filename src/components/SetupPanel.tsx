@@ -66,7 +66,7 @@ const SetupPanel: React.FC<SetupPanelProps> = ({
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-6 text-[#166cb7]">Configuration du réseau</h2>
+      <h2 className="text-2xl text-center font-bold mb-6 text-[#166cb7]">Configuration du réseau</h2>
       
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-2">

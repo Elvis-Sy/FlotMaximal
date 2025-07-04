@@ -20,6 +20,7 @@ const CreativeFlow = () => {
         <div className="min-h-screen bg-[#fefefe] flex flex-col">
           <div className="bg-white border-b border-gray-200">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+              <h1 className='text-2xl text-gray-800 py-4 pl-1 font-bold underline font-transcity tracking-wider'>Mode Libre</h1>
               <FieldCard onValueChange={setFieldValue} nodes={nodes} />
             </div>
           </div>

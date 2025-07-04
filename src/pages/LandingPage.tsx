@@ -18,10 +18,10 @@ const LandingPage = () => {
         <div className="flex flex-col md:flex-row gap-10 items-center py-6 px-4 md:px-6">
           <Link to="/creative" className="group py-6 px-4 shadow-lg rounded-lg max-w-80 bg-white/80 backdrop-blur-sm transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl hover:translate-y-2">
             <h1 className='font-bold text-lg text-[#127ad0]'>
-                Mode Libre
+              Mode Libre
             </h1>
             <p className='text-gray-700 mt-2'>
-                Création de sommets avec positionnement libre et connexions définies manuellement.
+              Création de sommets avec positionnement libre et connexions définies manuellement.
             </p>
           </Link>
 
@@ -33,6 +33,10 @@ const LandingPage = () => {
               Construction du graphe avec placement optimisé et connexions générées à partir des données fournies.
             </p>
           </Link>
+        </div>
+
+        <div className="bg-yellow-100 border-l-4 border-yellow-500 text-gray-800 w-fit px-4 py-3 mx-4 md:mx-6 mt-[-1rem] rounded shadow-sm">
+          💡 <span className="font-semibold">Conseil :</span> Le <strong>Mode Assisté</strong> est recommandé pour une meilleure expérience sur mobile.
         </div>
       </div>
       

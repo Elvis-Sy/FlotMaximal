@@ -11,7 +11,7 @@ const Header = () => {
     const showBouton = location.pathname !== "/";
 
   return (
-    <header className='py-4 px-6 flex justify-between items-center'>
+    <header className='py-4 px-6 flex justify-between items-center bg-blue-200/50'>
         <div className='flex gap-2 items-center'>
             <Link to="/" onClick={() => window.scrollTo(0, 0)}>
                 <img src="/assets/logo.png" alt="logo" width={30} height={30}/>

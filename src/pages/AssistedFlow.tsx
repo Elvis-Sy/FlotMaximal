@@ -198,8 +198,9 @@ const AssistedFlow =()=> {
   return (
     
     <ContentWrapper>
+      <h1 className='text-2xl text-gray-800 py-4 pl-6 font-bold underline font-transcity tracking-wider'>Mode Assisté</h1>
       <div className="min-h-screen flex flex-col md:flex-row">
-      <div className="w-full md:w-1/3 md:border-r border-b md:border-b-0 border-gray-200 md:overflow-auto">
+        <div className="w-full md:w-1/3 md:border-r border-b md:border-b-0 border-gray-200 md:overflow-auto">
           <SetupPanel
             nodesInput={nodesInput}
             setNodesInput={setNodesInput}
