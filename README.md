@@ -16,5 +16,5 @@ Ce projet implémente un algorithme de résolution du **problème de flot maxima
 
 ## 📷 Aperçu
 
-![Aperçu de l'application](./assets/screenshot.jpeg)
+![Aperçu de l'application](./public/assets/screenshot.jpeg)
 
