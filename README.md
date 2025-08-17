@@ -4,6 +4,8 @@ Ce projet implémente un algorithme de résolution du **problème de flot maxima
 
 ### ✨ [Live Demo](https://flot-maximal.vercel.app)
 
+---
+
 ## 🚀 Fonctionnalités
 
 - Détection automatique du flot maximal entre une source et un puits
