@@ -2,6 +2,8 @@
 
 Ce projet implémente un algorithme de résolution du **problème de flot maximal** dans un graphe orienté. Il permet de trouver la quantité maximale de flot qu'on peut faire passer d'une source vers un puits sans violer les capacités des arcs.
 
+### ✨ [Live Demo](https://flot-maximal.vercel.app)
+
 ## 🚀 Fonctionnalités
 
 - Détection automatique du flot maximal entre une source et un puits
